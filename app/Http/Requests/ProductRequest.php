@@ -25,7 +25,7 @@ class ProductRequest extends FormRequest
   {
       $id = $this->route()->parameter('id');
       return [
-          'nama_produk' => 'required|string|min:5|unique:articles,title,'.$id.'',
+          'nama_produk' => 'required|string|min:5|unique:products,nama_produk,'.$id.'',
           // 'nama_produk' => 'required|string|min:5|unique:articles,title',
           'deskripsi' => 'required',
           'gambar' => ''
