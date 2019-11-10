@@ -21,7 +21,12 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::group(['middleware' => 'auth'], function(){
   // resouce = get index(), delete destroy(), put update(), post store()
-  Route::resource('/admin/article', 'ArticleController');
+  // Route::resource('/admin/article', 'ArticleController');
+
+  Route::get('/admin/article', 'ArticleController@index');
+  Route::post('/admin/article', 'ArticleController@store');
+  Route::put('/admin/article/{id}', 'ArticleController@update');
+  Route::delete('/admin/article/{id}', 'ArticleController@destroy');
 
   Route::get('/admin/add_article', 'ArticleController@add_article');
   Route::get('/admin/edit_article/{id}', 'ArticleController@edit_article');

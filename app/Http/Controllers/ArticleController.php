@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Article;
 use Illuminate\Http\Request;
 use File;
+use App\Http\Requests\ArticleRequest;
+use Exception;
 
 class ArticleController extends Controller
 {
@@ -24,8 +26,10 @@ class ArticleController extends Controller
     }
 
     public function edit_article($id){
-        $article = Article::find($id);
+
+        $article = Article::findOrFail($id);
         return view('article/edit', compact('article', 'id'));
+
     }
 
     /**
@@ -44,24 +48,28 @@ class ArticleController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ArticleRequest $request)
     {
+        $validated = $request->validated();
+
         $image = '';
         if ($request->hasfile('image'))
         {
           $file = $request->file('image');
           // original name image = Mawar.jpg
           // time() = 837498374
-          // output = 837498374Mawar.jpg
+          // output = 837498374Mawar.jpg as $image
           $image = time() . $file->getClientOriginalName();
           $file->move(public_path() . '/images/', $image);
         }
+        $validated['image'] = $image;
+        $article = Article::create($validated);
 
-        $article = new Article;
-        $article->title = $request->get('title');
-        $article->description = $request->get('description');
-        $article->image = $image;
-        $article->save();
+        // $article = new Article;
+        // $article->title = $request->get('title');
+        // $article->description = $request->get('description');
+        // $article->image = $image;
+        // $article->save();
 
         return redirect('admin/article')->with('success', 'article saved');
 
@@ -96,8 +104,10 @@ class ArticleController extends Controller
      * @param  \App\Article  $article
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(ArticleRequest $request, $id)
     {
+
+      $validated = $request->validated();
       $article = Article::find($id);
 
       $image = '';
@@ -118,15 +128,18 @@ class ArticleController extends Controller
         $file = $request->file('image');
         // original name image = Mawar.jpg
         // time() = 837498374
-        // output = 837498374Mawar.jpg
+        // output = 837498374Mawar.jpg as $image
         $image = time() . $file->getClientOriginalName();
         $file->move(public_path() . '/images/', $image);
       }
 
-        $article->title = $request->get('title');
-        $article->description = $request->get('description');
-        $article->image = $image;
-        $article->update();
+        $validated['image'] = $image;
+        $article->update($validated);
+
+        // $article->title = $request->get('title');
+        // $article->description = $request->get('description');
+        // $article->image = $image;
+        // $article->update();
 
         return redirect('admin/article')->with('success', 'Data updated');
     }

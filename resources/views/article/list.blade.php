@@ -4,6 +4,13 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-12">
+
+          @if (\Session::has('success'))
+          <div class="alert alert-success">
+            <p>{{ \Session::get('success') }}</p>
+          </div><br />
+         @endif
+
           <div class="right">
             <a href="{{ url('admin/add_article') }}" class="btn btn-primary"> Add Article </a> <br><br>
           </div>
