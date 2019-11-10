@@ -32,4 +32,11 @@ Route::group(['middleware' => 'auth'], function(){
   Route::get('/admin/edit_article/{id}', 'ArticleController@edit_article');
 
   Route::get('/admin/insert_article', 'ArticleController@store');
+
+  Route::get('/admin/product', 'ProductController@index');
+  Route::post('/admin/product', 'ProductController@store');
+  Route::put('/admin/product/{id}', 'ProductController@update');
+  Route::delete('/admin/product/{id}', 'ProductController@destroy');
+  Route::get('/admin/add_product', 'ProductController@add_product');
+  Route::get('/admin/edit_product/{id}', 'ProductController@edit_product');
 });

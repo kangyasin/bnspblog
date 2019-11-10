@@ -25,8 +25,8 @@ class ArticleRequest extends FormRequest
     {
         $id = $this->route()->parameter('id');
         return [
-            // 'title' => 'required|string|min:5|unique:articles,title,'.$id.'',
-            'title' => 'required|string|min:5|unique:articles,title',
+            'title' => 'required|string|min:5|unique:articles,title,'.$id.'',
+            // 'title' => 'required|string|min:5|unique:articles,title',
             'description' => 'required',
             'image' => ''
         ];
